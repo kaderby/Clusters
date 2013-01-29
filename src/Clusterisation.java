@@ -22,9 +22,10 @@ public Clusterisation(){
 clusters = new Vector<Cluster>() ;
 points = new Vector<Point>() ;
 variables=new Vector<String>();
+
 inertie = 100000000;
-dist=-1;
-k=0;
+dist=-1; 							//cette valeur est changée avant l'initialisation dans solve
+k=0; 								//cette valeur est changée avant l'initialisation dans solve
 }
 
 //imorter les notes des élèves
@@ -43,9 +44,9 @@ String ligne = in.readLine();
 String[] temp=ligne.split("\\t" );
 for (int i=0;i<temp.length; i++){
 variables.add(temp[i]);
-System.out.print(variables.lastElement()+" ");
+//System.out.print(variables.lastElement()+" ");
 }
-System.out.print("\n");
+//System.out.print("\n");
 ligne = in.readLine();
 while (ligne != null)	{
 
@@ -55,12 +56,12 @@ while (ligne != null)	{
 	for (int i=1; i<temp.length; i++){
 		double nombre = Double.parseDouble(temp[i]);
 		p.valeur.add(nombre);
-		System.out.print(nombre+" ");
+		//System.out.print(nombre+" ");
 	}
 
 	// Lecture de la prochaine ligne
 	points.add(p);
-	System.out.print("\n");
+	//System.out.print("\n");
 	ligne = in.readLine();
 }
 
@@ -89,12 +90,12 @@ while (ligne != null)	{
 	for (int i=0; i<temp.length; i++){
 		double nombre = Double.parseDouble(temp[i]);
 		p.valeur.add(nombre);
-		System.out.print(nombre+" ");
+		//System.out.print(nombre+" ");
 	}
 	
 	// Lecture de la prochaine ligne
 	points.add(p);
-	System.out.print("\n");
+	//System.out.print("\n");
 	ligne = in.readLine();
 }
 
@@ -108,7 +109,7 @@ public void Solve(int k,int dist){
 	this.k=k;
 	this.dist=dist;
 	Initialisation();
-	int itermax=100;
+	int itermax=1;
 	int i=0;
 	while (i<itermax){
 		Iteration();
@@ -117,52 +118,51 @@ public void Solve(int k,int dist){
 	}
 }
 
-//initialisation de l'algorithme
+//INITIALISATION de l'algorithme
 public void Initialisation(){
-
 	//tirage au hasard des centres de gravité
-for(int i=0;i<k;i++){
-int r=(int) Math.floor(Math.random()*points.size());
-Point grav=new Point(points.get(r));
-Cluster c=new Cluster(grav);
-clusters.add(c);
-}
-for(int j=0;j<points.size();j++){
-clusters.get(0).points.add(points.get(j));
-}
+	for(int i=0;i<k;i++){
+		int r=(int) Math.floor(Math.random()*points.size());
+		Point grav=new Point(points.get(r));
+		Cluster c=new Cluster(grav);
+		clusters.add(c);
+	}
+	for(int j=0;j<points.size();j++){
+		clusters.get(0).points.add(points.get(j));
+	}
 }
 
-// Effectuer une iteration
+//ITERATION
 public void Iteration(){
 //génération des nouveaux clusters et calcul de l'inertie intra-gourp
 setClusters();	
 //calcul des nouveaux centres de gravité
 for(int i=0;i<clusters.size();i++){
-Cluster c=clusters.get(i);
-c.SetGravite();
-System.out.println(c.gravite.valeur.get(0)+" "+c.gravite.valeur.get(1));
+	Cluster c=clusters.get(i);
+	c.SetGravite();
+	System.out.println(c.gravite.valeur.get(0)+" "+c.gravite.valeur.get(1));
 }
 }	
 
-// Générer les clusters
+//générer les clusters
 public void setClusters(){
 inertie=0;
 for(int i=0;i<points.size();i++){
-Point p=points.get(i);
-double min=Distance(p,clusters.get(0).gravite);
-int clus=0;
-for(int j=1;j<clusters.size();j++){
-double d=Distance(p,clusters.get(j).gravite);
-if (min>d){
-clus=j;
-min=d;
-}
-}
-clusters.get(p.cluster).points.removeElement(p);
-p.cluster=clus;
-clusters.get(p.cluster).points.add(p);
-//calcul de l'intertie intra-groupe totale
-inertie+=min;
+	Point p=points.get(i);
+	double min=Distance(p,clusters.get(0).gravite);
+	int clus=0;
+	for(int j=1;j<clusters.size();j++){
+			double d=Distance(p,clusters.get(j).gravite);
+			if (min>d){
+				clus=j;
+				min=d;
+			}
+	}
+	clusters.get(p.cluster).points.removeElement(p);
+	p.cluster=clus;
+	clusters.get(p.cluster).points.add(p);
+	//calcul de l'intertie intra-groupe totale
+	inertie+=min;
 }
 }
 //Calcul de la distance à un point

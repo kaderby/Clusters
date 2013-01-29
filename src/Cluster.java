@@ -9,19 +9,19 @@ Vector<Point> points;
 double inertie;
 
 //constructeurs
-public Cluster() {
-	super();
-}
+//public Cluster() {
+//	super();
+//}
 
 public Cluster(Point gravite) {
-	super();
+	//super();
 	this.gravite 	= gravite;
 	this.points 	= new Vector<Point>();
 	this.inertie 	= 0;
 }
 
 
-//calcul du centre de gravite
+//réglage du centre de gravite
 public void SetGravite(){
 	Vector<Double> coord = gravite.valeur;
 	for(int i=0;i<coord.size();i++){
