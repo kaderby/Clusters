@@ -67,7 +67,7 @@ while (ligne != null)	{
 
 }
 catch (Exception e){
-System.out.println(e.toString());
+//System.out.println(e.toString());
 }
 }
 
@@ -101,15 +101,14 @@ while (ligne != null)	{
 
 }
 catch (Exception e){
-System.out.println(e.toString());
+//System.out.println(e.toString());
 }
 }
 
-public void Solve(int k,int dist){
+public void Solve(int k,int dist,int itermax){
 	this.k=k;
 	this.dist=dist;
 	Initialisation();
-	int itermax=1;
 	int i=0;
 	while (i<itermax){
 		Iteration();
