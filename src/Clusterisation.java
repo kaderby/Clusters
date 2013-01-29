@@ -18,14 +18,13 @@ public int dist;
 public int k;
 
 // constructeurs
-public Clusterisation(){	
-clusters = new Vector<Cluster>() ;
-points = new Vector<Point>() ;
-variables=new Vector<String>();
-
-inertie = 100000000;
-dist=-1; 							//cette valeur est changée avant l'initialisation dans solve
-k=0; 								//cette valeur est changée avant l'initialisation dans solve
+public Clusterisation(){
+clusters = 	new Vector<Cluster>() ;
+points = 	new Vector<Point>() ;
+variables=	new Vector<String>();
+inertie = 	100000000;
+dist=		-1; 					//cette valeur est changée avant l'initialisation dans solve
+k=			0;						//cette valeur est changée avant l'initialisation dans solve
 }
 
 //imorter les notes des élèves
@@ -120,11 +119,27 @@ public void Solve(int k,int dist,int itermax){
 //INITIALISATION de l'algorithme
 public void Initialisation(){
 	//tirage au hasard des centres de gravité
+	LinkedList<Integer> References = new LinkedList<Integer>(); //references deja choisis
 	for(int i=0;i<k;i++){
-		int r=(int) Math.floor(Math.random()*points.size());
+		int r = (int) Math.floor(Math.random()*points.size());
+		
+		//Tester si r n'a pas ete deja choisi
+		boolean b = true;		
+		while(b){
+			r = (int) Math.floor(Math.random()*points.size());
+			boolean c = true;
+			for(int l=0;l<References.size();l++){
+				c = c && (r!=References.get(l));
+			}
+			b = !c;
+		}
+		References.add(r);
+		
+		//generation des elements necessaires
 		Point grav=new Point(points.get(r));
 		Cluster c=new Cluster(grav);
 		clusters.add(c);
+		
 	}
 	for(int j=0;j<points.size();j++){
 		clusters.get(0).points.add(points.get(j));
@@ -143,7 +158,7 @@ for(int i=0;i<clusters.size();i++){
 }
 }	
 
-//générer les clusters
+//generer les clusters
 public void setClusters(){
 inertie=0;
 for(int i=0;i<points.size();i++){

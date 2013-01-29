@@ -21,7 +21,7 @@ public Cluster(Point gravite) {
 }
 
 
-//réglage du centre de gravite
+//genereration du centre de gravite
 public void SetGravite(){
 	Vector<Double> coord = gravite.valeur;
 	for(int i=0;i<coord.size();i++){

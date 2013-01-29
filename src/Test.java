@@ -19,16 +19,22 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class Test {
 
-/**
-* @param args
-*/
 public static void main(String[] args) throws IOException {
-// TODO Auto-generated method stub
+
+//CONFIGURATION
+int k1= 2; 				//Nombre de Clusters
+int distance= 0;		//Choix de la distance: 0=Eucl 1=L1 2=SimCos 3=SimTan
+int iter= 2;			//Nombre d'iterations
+
+//CHOIX DU FICHIER
 Clusterisation c=new Clusterisation();
 c.LoadData("exemple1");
 //c.LoadDatabis("ListeDesMoyennes");
-int k1=2;
-c.Solve(k1,2);
+
+//SOLUTION
+c.Solve(k1,distance,iter);
+
+//AFFICHAGE DE LA SOLUTION
 XYSeriesCollection dataset = new XYSeriesCollection();
 // Create a simple XY chart
 for(int i=0;i<k1;i++){
@@ -37,7 +43,7 @@ Cluster group=c.clusters.get(i);
 for(Point p:group.points){
 double a=p.valeur.get(0);
 double b=p.valeur.get(1);
-series.add(a, b);
+series.add(a,b);
 }
 dataset.addSeries(series);	
 }
