@@ -19,7 +19,7 @@ public int k;
 
 // constructeurs
 public Clusterisation(){
-clusters = 	new Vector<Cluster>() ;
+clusters = 	new Vector<Cluster>();
 points = 	new Vector<Point>() ;
 variables=	new Vector<String>();
 inertie = 	100000000;
@@ -27,7 +27,8 @@ dist=		-1; 					//cette valeur est changée avant l'initialisation dans solve
 k=			0;						//cette valeur est changée avant l'initialisation dans solve
 }
 
-//imorter les notes des élèves
+//DONNEES COMPLEXES
+//importer les notes des élèves
 public void LoadDatabis(String texte) throws IOException{	
 
 // Lecture du fichier texte
@@ -42,8 +43,8 @@ BufferedReader in = new BufferedReader(reader);
 String ligne = in.readLine();
 String[] temp=ligne.split("\\t" );
 for (int i=0;i<temp.length; i++){
-variables.add(temp[i]);
-//System.out.print(variables.lastElement()+" ");
+	variables.add(temp[i]);
+	//System.out.print(variables.lastElement()+" ");
 }
 //System.out.print("\n");
 ligne = in.readLine();
@@ -53,7 +54,11 @@ while (ligne != null)	{
 	Point p =new Point();
 	temp=ligne.split("\\t" );
 	for (int i=1; i<temp.length; i++){
-		double nombre = Double.parseDouble(temp[i]);
+		
+		String nb= temp[i];
+		nb=nb.replaceAll(",",".");
+		
+		double nombre = Double.parseDouble(nb);
 		p.valeur.add(nombre);
 		//System.out.print(nombre+" ");
 	}
@@ -66,10 +71,12 @@ while (ligne != null)	{
 
 }
 catch (Exception e){
-//System.out.println(e.toString());
+System.out.println(e.toString());
 }
 }
 
+
+//DONNEES SIMPLES
 // Importer les données 2D simple
 public void LoadData(String texte) throws IOException{	
 
@@ -100,9 +107,10 @@ while (ligne != null)	{
 
 }
 catch (Exception e){
-//System.out.println(e.toString());
+System.out.println(e.toString());
 }
 }
+
 
 public void Solve(int k,int dist,int itermax){
 	this.k=k;
@@ -194,7 +202,7 @@ return result;
 private double Euclidean(Point p1, Point p2){
 double result=0;
 for(int i=0;i<p1.valeur.size();i++){
-result+=Math.pow(p1.valeur.get(i)-p2.valeur.get(i),2);
+	result+=Math.pow(p1.valeur.get(i)-p2.valeur.get(i),2);
 }
 result=result/p1.valeur.size();
 return result;
@@ -203,7 +211,7 @@ return result;
 private double Norme1 (Point p1,Point p2){
 double result=0;
 for(int i=0;i<p1.valeur.size();i++){
-result+=Math.abs(p1.valeur.get(i)-p2.valeur.get(i));
+	result+=Math.abs(p1.valeur.get(i)-p2.valeur.get(i));
 }
 result=result/p1.valeur.size();
 return result;
@@ -213,11 +221,11 @@ private double SimCosinus(Point p1,Point p2){
 double result=0;
 double prod=0,carre1=0,carre2=0;
 for(int i=0;i<p1.valeur.size();i++){
-double a=p1.valeur.get(i);
-double b=p2.valeur.get(i);
-prod+=a*b;
-carre1+=a*a;
-carre2+=b*b;
+	double a=p1.valeur.get(i);
+	double b=p2.valeur.get(i);
+	prod+=a*b;
+	carre1+=a*a;
+	carre2+=b*b;
 }
 result=prod/(Math.sqrt(carre1)*Math.sqrt(carre2));
 return result;
@@ -227,11 +235,11 @@ private double SimTanimoto(Point p1,Point p2){
 double result=0;
 double prod=0,carre1=0,carre2=0;
 for(int i=0;i<p1.valeur.size();i++){
-double a=p1.valeur.get(i);
-double b=p2.valeur.get(i);
-prod+=a*b;
-carre1+=a*a;
-carre2+=b*b;
+	double a=p1.valeur.get(i);
+	double b=p2.valeur.get(i);
+	prod+=a*b;
+	carre1+=a*a;
+	carre2+=b*b;
 }
 result=prod/(carre1+carre2-prod);
 return result;
